@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using Backend.Modules.Patients;
+using Backend.Modules.ServiceOrders;
 using Backend.Shared.Infrastructure;
 using Backend.Shared.Presentation.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<GlobalExceptionFilter>();
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -15,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
            .UseSnakeCaseNamingConvention());
 
 builder.Services.AddPatientsModule();
+builder.Services.AddServiceOrdersModule();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
