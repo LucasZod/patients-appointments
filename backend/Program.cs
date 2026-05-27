@@ -1,3 +1,4 @@
+using Backend.Modules.Patients;
 using Backend.Shared.Infrastructure;
 using Backend.Shared.Presentation.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ builder.Services.AddControllers(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
            .UseSnakeCaseNamingConvention());
+
+builder.Services.AddPatientsModule();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
