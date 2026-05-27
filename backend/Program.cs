@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Backend.Modules.Patients;
+using Backend.Modules.Queue;
 using Backend.Modules.ServiceOrders;
 using Backend.Shared.Infrastructure;
 using Backend.Shared.Presentation.Filters;
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddPatientsModule();
 builder.Services.AddServiceOrdersModule();
+builder.Services.AddQueueModule();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
