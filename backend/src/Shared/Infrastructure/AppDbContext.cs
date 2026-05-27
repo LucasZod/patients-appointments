@@ -1,4 +1,5 @@
 using Backend.Modules.Patients.Domain;
+using Backend.Modules.Samples.Domain;
 using Backend.Modules.ServiceOrders.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Patient> Patients => Set<Patient>();
     public DbSet<ServiceOrder> ServiceOrders => Set<ServiceOrder>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Sample> Samples => Set<Sample>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
