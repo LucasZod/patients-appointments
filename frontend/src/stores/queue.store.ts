@@ -50,13 +50,18 @@ export const useQueueStore = defineStore('queue', () => {
     const term = searchTerm.value.trim().toLowerCase()
     const now = Date.now()
 
+    function getWaitingMinutes(o: ServiceOrder): number {
+      const finishedAt = o.finishedAt ? new Date(o.finishedAt).getTime() : now
+      return Math.max(0, Math.floor((finishedAt - new Date(o.createdAt).getTime()) / 60000))
+    }
+
     return orders.value
       .filter((o) => filterStatus.value === 'all' || o.status === filterStatus.value)
       .filter((o) => term === '' || (o.patientName ?? '').toLowerCase().includes(term))
       .map((o) => ({
         order: o,
         position: waitingPositions.value.get(o.id) ?? null,
-        waitingMinutes: Math.max(0, Math.floor((now - new Date(o.createdAt).getTime()) / 60000)),
+        waitingMinutes: getWaitingMinutes(o),
         tubeTypes: [...new Set(o.items.map((i) => i.tubeType))],
       }))
   })
