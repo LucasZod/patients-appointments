@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { toast } from 'vue-sonner'
 import router from '@/router'
 import { sampleApi } from '@/api/sample.api'
 import { serviceOrderApi } from '@/api/service-order.api'
@@ -43,7 +44,7 @@ export const useSampleStore = defineStore('sample', () => {
     try {
       samples.value = await sampleApi.findByOrder(serviceOrderId)
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao carregar amostras'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao carregar amostras')
     } finally {
       isLoading.value = false
     }
@@ -54,8 +55,9 @@ export const useSampleStore = defineStore('sample', () => {
       const updated = await sampleApi.approve(sampleId)
       const idx = samples.value.findIndex((s) => s.id === sampleId)
       if (idx >= 0) samples.value[idx] = updated
+      toast.success('Amostra aprovada!')
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao aprovar amostra'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao aprovar amostra')
     }
   }
 
@@ -100,8 +102,9 @@ export const useSampleStore = defineStore('sample', () => {
       const idx = samples.value.findIndex((s) => s.id === selectedSampleId.value)
       if (idx >= 0) samples.value[idx] = updated
       closeRejectModal()
+      toast.success('Amostra rejeitada.')
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao rejeitar amostra'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao rejeitar amostra')
     } finally {
       isSubmitting.value = false
     }
@@ -124,7 +127,7 @@ export const useSampleStore = defineStore('sample', () => {
       await sampleApi.recordSamples(serviceOrderId, tubes)
       await router.replace(`/orders/${serviceOrderId}/samples/review`)
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao registrar coleta'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao registrar coleta')
     } finally {
       isSubmitting.value = false
     }

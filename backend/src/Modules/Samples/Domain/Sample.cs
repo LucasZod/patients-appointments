@@ -16,9 +16,9 @@ public class Sample : Entity
     public static Sample Create(Guid serviceOrderId, string tubeType)
     {
         if (serviceOrderId == Guid.Empty)
-            throw new DomainException("ServiceOrderId is required");
+            throw new DomainException("ID da ordem de serviço é obrigatório");
         if (string.IsNullOrWhiteSpace(tubeType))
-            throw new DomainException("Tube type is required");
+            throw new DomainException("Tipo de tubo é obrigatório");
 
         return new Sample
         {
@@ -48,6 +48,6 @@ public class Sample : Entity
     public void EnsureCanBeReviewed()
     {
         if (Status != SampleStatus.Collected)
-            throw new DomainException($"Sample cannot be reviewed from status '{Status}'");
+            throw new DomainException($"Amostra não pode ser conferida com status '{Status}'");
     }
 }

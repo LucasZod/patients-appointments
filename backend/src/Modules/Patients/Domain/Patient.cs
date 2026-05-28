@@ -14,10 +14,10 @@ public class Patient : Entity
     public static Patient Create(string name, string cpf, DateOnly birthDate, string? phone)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new DomainException("Name is required");
+            throw new DomainException("Nome é obrigatório");
 
         if (birthDate > DateOnly.FromDateTime(DateTime.UtcNow))
-            throw new DomainException("Birth date cannot be in the future");
+            throw new DomainException("Data de nascimento não pode ser no futuro");
 
         return new Patient
         {

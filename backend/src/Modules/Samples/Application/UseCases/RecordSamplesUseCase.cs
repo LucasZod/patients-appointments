@@ -13,14 +13,14 @@ public class RecordSamplesUseCase(
     public async Task<IReadOnlyList<Sample>> ExecuteAsync(Guid serviceOrderId, IEnumerable<string> tubeTypes)
     {
         var serviceOrder = await serviceOrderRepository.FindByIdAsync(serviceOrderId)
-            ?? throw new NotFoundException($"Service order '{serviceOrderId}' not found");
+            ?? throw new NotFoundException($"Ordem de serviço não encontrada");
 
         if (serviceOrder.Status != ServiceOrderStatus.Collected)
-            throw new DomainException($"Samples can only be recorded when service order is 'Collected', current status is '{serviceOrder.Status}'");
+            throw new DomainException($"Amostras só podem ser registradas quando a ordem está com status 'Coletado'. Status atual: '{serviceOrder.Status}'");
 
         var samples = tubeTypes.Select(t => Sample.Create(serviceOrderId, t)).ToList();
         if (samples.Count == 0)
-            throw new DomainException("At least one tube is required");
+            throw new DomainException("Pelo menos um tubo é necessário");
 
         await sampleRepository.SaveManyAsync(samples);
         return samples;

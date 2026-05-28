@@ -10,7 +10,7 @@ public class FindPatientByCpfUseCase(IPatientRepository repository)
     {
         var patient = await repository.FindByCpfAsync(cpf);
         if (patient is null)
-            throw new NotFoundException($"Patient with CPF '{cpf}' not found");
+            throw new NotFoundException($"Paciente com CPF '{cpf}' não encontrado");
 
         return patient;
     }

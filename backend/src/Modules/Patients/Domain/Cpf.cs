@@ -9,12 +9,12 @@ public sealed class Cpf
     public Cpf(string raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
-            throw new DomainException("CPF is required");
+            throw new DomainException("CPF é obrigatório");
 
         var digits = new string(raw.Where(char.IsDigit).ToArray());
 
         if (digits.Length != 11)
-            throw new DomainException("CPF must have 11 digits");
+            throw new DomainException("CPF deve ter 11 dígitos");
 
         Value = digits;
     }

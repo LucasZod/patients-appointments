@@ -15,11 +15,11 @@ public class OrderItem : Entity
     internal static OrderItem Create(string examCode, string examName, string tubeType)
     {
         if (string.IsNullOrWhiteSpace(examCode))
-            throw new DomainException("Exam code is required");
+            throw new DomainException("Código do exame é obrigatório");
         if (string.IsNullOrWhiteSpace(examName))
-            throw new DomainException("Exam name is required");
+            throw new DomainException("Nome do exame é obrigatório");
         if (string.IsNullOrWhiteSpace(tubeType))
-            throw new DomainException("Tube type is required");
+            throw new DomainException("Tipo de tubo é obrigatório");
 
         return new OrderItem
         {

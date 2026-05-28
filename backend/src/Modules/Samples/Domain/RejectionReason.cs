@@ -12,7 +12,7 @@ public sealed class RejectionReason
     public RejectionReason(RejectionReasonCode code, string? notes)
     {
         if (code == RejectionReasonCode.Other && string.IsNullOrWhiteSpace(notes))
-            throw new DomainException("Notes are required when rejection reason is 'Other'");
+            throw new DomainException("Descrição é obrigatória quando o motivo é 'Outro'");
 
         Code = code;
         Notes = string.IsNullOrWhiteSpace(notes) ? null : notes.Trim();

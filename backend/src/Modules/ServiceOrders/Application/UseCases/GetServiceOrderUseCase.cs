@@ -10,7 +10,7 @@ public class GetServiceOrderUseCase(IServiceOrderRepository repository)
     {
         var result = await repository.FindByIdWithPatientAsync(id);
         if (result is null)
-            throw new NotFoundException($"Service order '{id}' not found");
+            throw new NotFoundException($"Ordem de serviço não encontrada");
 
         return result;
     }

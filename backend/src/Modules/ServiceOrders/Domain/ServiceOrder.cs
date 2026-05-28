@@ -20,11 +20,11 @@ public class ServiceOrder : Entity
     public static ServiceOrder Create(Guid patientId, Priority priority, IEnumerable<(string examCode, string examName, string tubeType)> items)
     {
         if (patientId == Guid.Empty)
-            throw new DomainException("PatientId is required");
+            throw new DomainException("ID do paciente é obrigatório");
 
         var orderItems = items.Select(i => OrderItem.Create(i.examCode, i.examName, i.tubeType)).ToList();
         if (orderItems.Count == 0)
-            throw new DomainException("Service order must have at least one item");
+            throw new DomainException("A ordem deve ter pelo menos um exame");
 
         var order = new ServiceOrder
         {
@@ -58,7 +58,7 @@ public class ServiceOrder : Entity
     public void MarkAsCompleted()
     {
         if (Status != ServiceOrderStatus.Collected)
-            throw new DomainException($"Service order cannot be completed from status '{Status}'");
+            throw new DomainException($"Ordem não pode ser concluída com status '{Status}'");
 
         Status = ServiceOrderStatus.Completed;
         RaiseEvent(new ServiceOrderCompleted(Id));
@@ -67,7 +67,7 @@ public class ServiceOrder : Entity
     public void MarkAsRejected()
     {
         if (Status != ServiceOrderStatus.Collected)
-            throw new DomainException($"Service order cannot be rejected from status '{Status}'");
+            throw new DomainException($"Ordem não pode ser rejeitada com status '{Status}'");
 
         Status = ServiceOrderStatus.Rejected;
     }
@@ -75,12 +75,12 @@ public class ServiceOrder : Entity
     public void EnsureCanBeCalledForCollection()
     {
         if (Status != ServiceOrderStatus.Waiting)
-            throw new DomainException($"Service order cannot be called for collection from status '{Status}'");
+            throw new DomainException($"Ordem não pode ser chamada com status '{Status}'");
     }
 
     public void EnsureCanCompleteCollection()
     {
         if (Status != ServiceOrderStatus.InProgress)
-            throw new DomainException($"Service order cannot complete collection from status '{Status}'");
+            throw new DomainException($"Ordem não pode finalizar coleta com status '{Status}'");
     }
 }

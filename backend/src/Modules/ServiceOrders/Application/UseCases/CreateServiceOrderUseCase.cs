@@ -15,7 +15,7 @@ public class CreateServiceOrderUseCase(
     {
         var patient = await patientRepository.FindByIdAsync(patientId);
         if (patient is null)
-            throw new NotFoundException($"Patient '{patientId}' not found");
+            throw new NotFoundException($"Paciente não encontrado");
 
         var serviceOrder = ServiceOrder.Create(
             patientId,

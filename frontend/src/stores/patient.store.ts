@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { toast } from 'vue-sonner'
 import { cpf as cpfValidator } from 'cpf-cnpj-validator'
 import { patientApi } from '@/api/patient.api'
 import { HttpError } from '@/api/http'
@@ -29,7 +30,6 @@ export const usePatientStore = defineStore('patient', () => {
 
   const showRegisterModal = ref(false)
   const isRegistering = ref(false)
-  const registerError = ref<string | null>(null)
   const registerForm = ref<RegisterForm>(emptyRegisterForm())
   const validationErrors = ref<Record<string, string>>({})
 
@@ -66,7 +66,7 @@ export const usePatientStore = defineStore('patient', () => {
         return
       }
 
-      searchError.value = err instanceof Error ? err.message : 'Erro ao buscar paciente'
+      toast.error(err instanceof Error ? err.message : 'Erro ao buscar paciente')
     } finally {
       isSearching.value = false
     }
@@ -98,7 +98,6 @@ export const usePatientStore = defineStore('patient', () => {
 
   const closeRegisterModal = () => {
     showRegisterModal.value = false
-    registerError.value = null
     validationErrors.value = {}
   }
 
@@ -127,7 +126,6 @@ export const usePatientStore = defineStore('patient', () => {
     }
 
     isRegistering.value = true
-    registerError.value = null
     validationErrors.value = {}
 
     try {
@@ -135,8 +133,9 @@ export const usePatientStore = defineStore('patient', () => {
       useServiceOrderStore().selectPatient(patient)
       showRegisterModal.value = false
       registerForm.value = emptyRegisterForm()
+      toast.success('Paciente cadastrado com sucesso!')
     } catch (err) {
-      registerError.value = err instanceof Error ? err.message : 'Erro ao cadastrar paciente'
+      toast.error(err instanceof Error ? err.message : 'Erro ao cadastrar paciente')
     } finally {
       isRegistering.value = false
     }
@@ -148,7 +147,6 @@ export const usePatientStore = defineStore('patient', () => {
     searchError,
     showRegisterModal,
     isRegistering,
-    registerError,
     registerForm,
     validationErrors,
     isSearchCpfValid,

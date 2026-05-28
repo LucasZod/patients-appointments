@@ -9,7 +9,7 @@ public class CompleteCollectionUseCase(IServiceOrderRepository repository)
     public async Task<ServiceOrderWithPatient> ExecuteAsync(Guid serviceOrderId)
     {
         var result = await repository.FindByIdWithPatientAsync(serviceOrderId)
-            ?? throw new NotFoundException($"Service order '{serviceOrderId}' not found");
+            ?? throw new NotFoundException($"Ordem de serviço não encontrada");
 
         result.Order.CompleteCollection();
         await repository.SaveAsync(result.Order);

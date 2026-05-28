@@ -10,7 +10,7 @@ public class GetQueuePositionUseCase(IQueueRepository repository)
     {
         var item = await repository.GetPositionAsync(serviceOrderId);
         if (item is null)
-            throw new NotFoundException($"Service order '{serviceOrderId}' is not in the queue");
+            throw new NotFoundException($"Ordem de serviço não está na fila");
 
         return item;
     }

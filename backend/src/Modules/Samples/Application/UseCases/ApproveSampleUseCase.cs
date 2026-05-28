@@ -13,7 +13,7 @@ public class ApproveSampleUseCase(
     public async Task<Sample> ExecuteAsync(Guid sampleId)
     {
         var sample = await sampleRepository.FindByIdAsync(sampleId)
-            ?? throw new NotFoundException($"Sample '{sampleId}' not found");
+            ?? throw new NotFoundException($"Amostra não encontrada");
 
         sample.Approve();
         await sampleRepository.SaveAsync(sample);
@@ -22,7 +22,7 @@ public class ApproveSampleUseCase(
         if (allSamples.All(s => s.Status == SampleStatus.Approved))
         {
             var serviceOrder = await serviceOrderRepository.FindByIdAsync(sample.ServiceOrderId)
-                ?? throw new NotFoundException($"Service order '{sample.ServiceOrderId}' not found");
+                ?? throw new NotFoundException($"Ordem de serviço não encontrada");
 
             if (serviceOrder.Status == ServiceOrderStatus.Collected)
             {

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { toast } from 'vue-sonner'
 import router from '@/router'
 import { serviceOrderApi } from '@/api/service-order.api'
 import { examsCatalog, findExam } from '@/data/exams-catalog'
@@ -17,11 +18,9 @@ export const useServiceOrderStore = defineStore('service-order', () => {
   const selectedPriority = ref<Priority>('Normal')
   const selectedExamCodes = ref<string[]>([])
   const isCreating = ref(false)
-  const createError = ref<string | null>(null)
 
   const currentOrder = ref<ServiceOrder | null>(null)
   const isLoadingOrder = ref(false)
-  const loadError = ref<string | null>(null)
 
   const canSubmit = computed(
     () => selectedPatient.value !== null && selectedExamCodes.value.length > 0 && !isCreating.value,
@@ -60,20 +59,14 @@ export const useServiceOrderStore = defineStore('service-order', () => {
   const reset = () => {
     selectedPriority.value = 'Normal'
     selectedExamCodes.value = []
-    createError.value = null
-  }
-
-  const clearError = () => {
-    createError.value = null
   }
 
   const loadOrder = async (id: string): Promise<void> => {
     isLoadingOrder.value = true
-    loadError.value = null
     try {
       currentOrder.value = await serviceOrderApi.findById(id)
     } catch (err) {
-      loadError.value = err instanceof HttpError ? err.message : 'Erro ao carregar a ordem'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao carregar a ordem')
     } finally {
       isLoadingOrder.value = false
     }
@@ -83,7 +76,7 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     try {
       currentOrder.value = await serviceOrderApi.completeCollection(id)
     } catch (err) {
-      loadError.value = err instanceof HttpError ? err.message : 'Erro ao finalizar coleta'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao finalizar coleta')
     }
   }
 
@@ -91,7 +84,6 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     if (!selectedPatient.value || selectedExamCodes.value.length === 0) return null
 
     isCreating.value = true
-    createError.value = null
 
     try {
       const items = selectedExamCodes.value
@@ -106,10 +98,11 @@ export const useServiceOrderStore = defineStore('service-order', () => {
       })
 
       reset()
+      toast.success('Ordem de serviço criada com sucesso!')
       await router.push('/queue')
       return order
     } catch (err) {
-      createError.value = err instanceof HttpError ? err.message : 'Erro ao criar a ordem'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao criar a ordem')
       return null
     } finally {
       isCreating.value = false
@@ -121,17 +114,14 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     selectedPriority,
     selectedExamCodes,
     isCreating,
-    createError,
     currentOrder,
     isLoadingOrder,
-    loadError,
     canSubmit,
     tubeSummary,
     selectPatient,
     setPriority,
     toggleExam,
     reset,
-    clearError,
     loadOrder,
     completeCollection,
     createOrder,

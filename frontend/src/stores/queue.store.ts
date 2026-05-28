@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { toast } from 'vue-sonner'
 import { serviceOrderApi } from '@/api/service-order.api'
 import { HttpError } from '@/api/http'
 import type { Priority, ServiceOrder, ServiceOrderStats, ServiceOrderStatus } from '@/types'
@@ -72,7 +73,7 @@ export const useQueueStore = defineStore('queue', () => {
       orders.value = list
       stats.value = statsData
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao carregar a fila'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao carregar a fila')
     } finally {
       isLoading.value = false
     }
@@ -86,7 +87,7 @@ export const useQueueStore = defineStore('queue', () => {
       await serviceOrderApi.callNext()
       await fetchQueue()
     } catch (err) {
-      error.value = err instanceof HttpError ? err.message : 'Erro ao chamar o próximo paciente'
+      toast.error(err instanceof HttpError ? err.message : 'Erro ao chamar o próximo paciente')
     } finally {
       isCallingNext.value = false
     }
