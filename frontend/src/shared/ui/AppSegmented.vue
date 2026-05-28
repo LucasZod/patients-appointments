@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex gap-1" role="group">
+  <div class="md:flex gap-1 grid grid-cols-2" role="group">
     <button
       v-for="option in options"
       :key="option.value"
