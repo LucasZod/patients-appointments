@@ -1,4 +1,5 @@
 using Backend.Modules.ServiceOrders.Application.UseCases;
+using Backend.Modules.ServiceOrders.Domain;
 using Backend.Modules.ServiceOrders.Presentation.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,8 @@ namespace Backend.Modules.ServiceOrders.Presentation.Controllers;
 public class ServiceOrdersController(
     CreateServiceOrderUseCase createServiceOrder,
     GetServiceOrderUseCase getServiceOrder,
+    ListServiceOrdersUseCase listServiceOrders,
+    GetServiceOrdersStatsUseCase getStats,
     CallNextPatientUseCase callNextPatient,
     CompleteCollectionUseCase completeCollection) : ControllerBase
 {
@@ -18,6 +21,24 @@ public class ServiceOrdersController(
         var items = dto.Items.Select(i => new CreateServiceOrderItem(i.ExamCode, i.ExamName, i.TubeType));
         var serviceOrder = await createServiceOrder.ExecuteAsync(dto.PatientId, dto.Priority, items);
         return CreatedAtAction(nameof(GetById), new { id = serviceOrder.Id }, ServiceOrderResponseDto.FromDomain(serviceOrder));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyCollection<ServiceOrderResponseDto>>> List(
+        [FromQuery] ServiceOrderStatus? status,
+        [FromQuery] string? date)
+    {
+        DateTime? createdFrom = date == "today" ? DateTime.UtcNow.Date : null;
+        var orders = await listServiceOrders.ExecuteAsync(status, createdFrom);
+        return Ok(orders.Select(o => ServiceOrderResponseDto.FromDomain(o.Order, o.PatientName)).ToList());
+    }
+
+    [HttpGet("stats")]
+    public async Task<ActionResult<ServiceOrderStatsDto>> Stats([FromQuery] string? date)
+    {
+        var completedFrom = date == "today" ? DateTime.UtcNow.Date : DateTime.UtcNow.Date;
+        var stats = await getStats.ExecuteAsync(completedFrom);
+        return Ok(ServiceOrderStatsDto.FromDomain(stats));
     }
 
     [HttpGet("{id:guid}")]

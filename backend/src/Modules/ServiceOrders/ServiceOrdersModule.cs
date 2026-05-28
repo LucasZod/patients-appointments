@@ -11,6 +11,8 @@ public static class ServiceOrdersModule
         services.AddScoped<IServiceOrderRepository, EfServiceOrderRepository>();
         services.AddScoped<CreateServiceOrderUseCase>();
         services.AddScoped<GetServiceOrderUseCase>();
+        services.AddScoped<ListServiceOrdersUseCase>();
+        services.AddScoped<GetServiceOrdersStatsUseCase>();
         services.AddScoped<CallNextPatientUseCase>();
         services.AddScoped<CompleteCollectionUseCase>();
         return services;

@@ -5,6 +5,7 @@ namespace Backend.Modules.ServiceOrders.Presentation.DTOs;
 public record ServiceOrderResponseDto(
     Guid Id,
     Guid PatientId,
+    string? PatientName,
     ServiceOrderStatus Status,
     Priority Priority,
     DateTime? CalledAt,
@@ -12,9 +13,10 @@ public record ServiceOrderResponseDto(
     DateTime CreatedAt,
     IReadOnlyCollection<OrderItemResponseDto> Items)
 {
-    public static ServiceOrderResponseDto FromDomain(ServiceOrder so) => new(
+    public static ServiceOrderResponseDto FromDomain(ServiceOrder so, string? patientName = null) => new(
         so.Id,
         so.PatientId,
+        patientName,
         so.Status,
         so.Priority,
         so.CalledAt,

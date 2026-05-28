@@ -5,7 +5,9 @@ namespace Backend.Modules.Queue.Domain;
 public sealed record QueueItem(
     Guid ServiceOrderId,
     Guid PatientId,
+    string PatientName,
     Priority Priority,
     int Position,
     DateTime CreatedAt,
-    TimeSpan WaitTime);
+    TimeSpan WaitTime,
+    IReadOnlyList<string> TubeTypes);
