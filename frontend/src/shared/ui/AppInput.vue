@@ -1,5 +1,5 @@
 <template>
-  <label class="flex flex-col gap-1 relative">
+  <label class="flex flex-col gap-1 relative" :class="classLabel">
     <span v-if="label" class="text-sm font-medium text-text">{{ label }}</span>
     <input
       :value="modelValue"
@@ -31,6 +31,7 @@ interface Props {
   disabled?: boolean
   type?: string
   mask?: 'cpf' | 'phone'
+  classLabel?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {

@@ -30,6 +30,7 @@ export interface OrderItem {
 export interface ServiceOrder {
   id: string
   patientId: string
+  patientName?: string | null
   status: ServiceOrderStatus
   priority: Priority
   calledAt?: string | null
@@ -41,10 +42,19 @@ export interface ServiceOrder {
 export interface QueueItem {
   serviceOrderId: string
   patientId: string
+  patientName: string
   priority: Priority
   position: number
   createdAt: string
   waitSeconds: number
+  tubeTypes: string[]
+}
+
+export interface ServiceOrderStats {
+  waiting: number
+  inProgress: number
+  completedToday: number
+  rejectedToday: number
 }
 
 export interface RejectionReason {

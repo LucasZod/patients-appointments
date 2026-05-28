@@ -17,13 +17,7 @@
           }}</span>
         </div>
       </div>
-      <button
-        type="button"
-        class="text-sm text-primary hover:underline cursor-pointer"
-        @click="clearSearch"
-      >
-        Trocar
-      </button>
+      <AppButton variant="ghost" @click="clearSearch">Trocar</AppButton>
     </div>
   </AppCard>
 </template>
@@ -34,6 +28,7 @@ import { storeToRefs } from 'pinia'
 import { usePatientStore } from '@/stores/patient.store'
 import { useServiceOrderStore } from '@/stores/service-order.store'
 import AppCard from '@/shared/ui/AppCard.vue'
+import AppButton from '@/shared/ui/AppButton.vue'
 
 const { selectedPatient } = storeToRefs(useServiceOrderStore())
 const { clearSearch } = usePatientStore()

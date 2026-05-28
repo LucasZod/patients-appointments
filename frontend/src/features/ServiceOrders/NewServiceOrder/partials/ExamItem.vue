@@ -6,12 +6,7 @@
     ]"
   >
     <div class="flex items-center gap-3">
-      <input
-        type="checkbox"
-        class="h-4 w-4 cursor-pointer accent-primary"
-        :checked="checked"
-        @change="toggleExam(exam.code)"
-      />
+      <AppCheckbox :model-value="checked" @update:model-value="toggleExam(exam.code)" />
       <TubeDot :tube-type="exam.tubeType" :size="12" />
       <span class="text-sm text-text">{{ exam.name }}</span>
       <span class="text-xs text-secondary">({{ exam.code }})</span>
@@ -26,6 +21,7 @@ import { storeToRefs } from 'pinia'
 import { useServiceOrderStore } from '@/stores/service-order.store'
 import TubeDot from '@/shared/ui/TubeDot.vue'
 import AppBadge from '@/shared/ui/AppBadge.vue'
+import AppCheckbox from '@/shared/ui/AppCheckbox.vue'
 import type { CatalogExam } from '@/data/exams-catalog'
 
 const props = defineProps<{ exam: CatalogExam }>()
