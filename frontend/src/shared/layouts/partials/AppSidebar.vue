@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="flex w-[220px] flex-col border-r border-border bg-surface p-4"
+    class="w-55 flex-col border-r border-border bg-surface p-4 hidden md:flex"
     aria-label="Navegação lateral"
   >
     <RouterLink
@@ -16,17 +16,11 @@
         :key="link.to"
         :to="link.to"
         class="flex items-center gap-2 rounded-button px-3 py-2 text-sm text-text hover:bg-bg"
-        active-class="border-l-[3px] border-primary bg-bg font-medium"
+        active-class="bg-bg font-medium"
       >
-        <span aria-hidden="true">{{ link.icon }}</span>
         {{ link.label }}
       </RouterLink>
     </nav>
-
-    <div class="mt-auto flex flex-col gap-1 border-t border-border pt-4 text-sm text-secondary">
-      <button type="button" class="text-left hover:text-text">Suporte</button>
-      <button type="button" class="text-left hover:text-text">Sair</button>
-    </div>
   </aside>
 </template>
 
@@ -34,8 +28,8 @@
 import { RouterLink } from 'vue-router'
 
 const links = [
-  { to: '/orders/new', label: 'Nova Ordem', icon: '📋' },
-  { to: '/queue', label: 'Fila', icon: '👥' },
-  { to: '/reports', label: 'Relatórios', icon: '📊' },
+  { to: '/orders/new', label: 'Nova Ordem' },
+  { to: '/queue', label: 'Fila' },
+  { to: '/reports', label: 'Relatórios' },
 ]
 </script>

@@ -10,14 +10,14 @@
       <div class="w-[480px] max-w-[calc(100vw-2rem)] rounded-card bg-surface shadow-xl">
         <header class="flex items-center justify-between border-b border-border px-5 py-3">
           <h2 class="text-base font-semibold text-text">{{ title }}</h2>
-          <button
-            type="button"
+          <AppButton
             class="rounded p-1 text-text/60 hover:bg-bg hover:text-text"
+            variant="ghost"
             aria-label="Fechar"
             @click="$emit('close')"
           >
             ✕
-          </button>
+          </AppButton>
         </header>
         <div class="px-5 py-4">
           <slot />
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import AppButton from '@/shared/ui/AppButton.vue'
 defineProps<{ open: boolean; title: string }>()
 
 defineEmits<{ close: [] }>()

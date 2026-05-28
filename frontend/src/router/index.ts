@@ -11,7 +11,11 @@ const router = createRouter({
       component: DefaultLayout,
       children: [
         { path: '', redirect: '/orders/new' },
-        { path: 'orders/new', name: 'orders-new', component: PlaceholderView },
+        {
+          path: 'orders/new',
+          name: 'orders-new',
+          component: () => import('@/features/ServiceOrders/NewServiceOrder/index.vue'),
+        },
         { path: 'queue', name: 'queue', component: PlaceholderView },
         { path: 'orders/:id', name: 'order-detail', component: PlaceholderView },
         {

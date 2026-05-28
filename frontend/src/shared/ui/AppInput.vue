@@ -1,5 +1,5 @@
 <template>
-  <label class="flex flex-col gap-1">
+  <label class="flex flex-col gap-1 relative">
     <span v-if="label" class="text-sm font-medium text-text">{{ label }}</span>
     <input
       :value="modelValue"
@@ -9,16 +9,14 @@
       :aria-invalid="!!error"
       :class="[
         'rounded-button border bg-surface px-3 py-2 text-sm outline-none transition-colors',
-        error
-          ? 'border-error focus:border-error'
-          : 'border-border focus:border-primary',
+        error ? 'border-error focus:border-error' : 'border-border focus:border-primary',
         disabled ? 'cursor-not-allowed opacity-50' : '',
       ]"
       v-bind="$attrs"
       @input="onInput"
       @blur="$emit('blur')"
     />
-    <span v-if="error" class="text-xs text-error">{{ error }}</span>
+    <span v-if="error" class="text-xs text-error absolute -bottom-5 left-0">{{ error }}</span>
   </label>
 </template>
 
