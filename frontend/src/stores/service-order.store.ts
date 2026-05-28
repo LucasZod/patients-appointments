@@ -6,6 +6,7 @@ import { serviceOrderApi } from '@/api/service-order.api'
 import { examsCatalog, findExam } from '@/data/exams-catalog'
 import { HttpError } from '@/api/http'
 import type { Patient, Priority, ServiceOrder, TubeType } from '@/types'
+import { usePatientStore } from './patient.store'
 
 export interface TubeSummaryItem {
   tubeType: TubeType
@@ -59,6 +60,9 @@ export const useServiceOrderStore = defineStore('service-order', () => {
   const reset = () => {
     selectedPriority.value = 'Normal'
     selectedExamCodes.value = []
+    selectedPatient.value = null
+    usePatientStore().searchCpf = ''
+    usePatientStore().searchError = null
   }
 
   const loadOrder = async (id: string): Promise<void> => {
@@ -98,6 +102,7 @@ export const useServiceOrderStore = defineStore('service-order', () => {
       })
 
       reset()
+
       toast.success('Ordem de serviço criada com sucesso!')
       await router.push('/queue')
       return order

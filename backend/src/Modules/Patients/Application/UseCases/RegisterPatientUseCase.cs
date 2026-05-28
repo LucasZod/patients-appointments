@@ -3,16 +3,18 @@ using Backend.Modules.Patients.Domain.Repositories;
 
 namespace Backend.Modules.Patients.Application.UseCases;
 
+public record RegisterPatientResult(Patient Patient, bool IsNew);
+
 public class RegisterPatientUseCase(IPatientRepository repository)
 {
-    public async Task<Patient> ExecuteAsync(string name, string cpf, DateOnly birthDate, string? phone)
+    public async Task<RegisterPatientResult> ExecuteAsync(string name, string cpf, DateOnly birthDate, string? phone)
     {
         var existing = await repository.FindByCpfAsync(cpf);
         if (existing is not null)
-            return existing;
+            return new RegisterPatientResult(existing, IsNew: false);
 
         var patient = Patient.Create(name, cpf, birthDate, phone);
         await repository.SaveAsync(patient);
-        return patient;
+        return new RegisterPatientResult(patient, IsNew: true);
     }
 }

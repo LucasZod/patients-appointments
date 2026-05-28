@@ -13,8 +13,11 @@ public class PatientsController(
     [HttpPost]
     public async Task<ActionResult<PatientResponseDto>> Register([FromBody] RegisterPatientDto dto)
     {
-        var patient = await registerPatient.ExecuteAsync(dto.Name, dto.Cpf, dto.BirthDate, dto.Phone);
-        return Ok(PatientResponseDto.FromDomain(patient));
+        var result = await registerPatient.ExecuteAsync(dto.Name, dto.Cpf, dto.BirthDate, dto.Phone);
+        var domainDto = PatientResponseDto.FromDomain(result.Patient);
+        if (!result.IsNew)
+            return Ok(domainDto);
+        return CreatedAtAction(nameof(FindByCpf), new { cpf = result.Patient.Cpf.Value }, domainDto);
     }
 
     [HttpGet]
