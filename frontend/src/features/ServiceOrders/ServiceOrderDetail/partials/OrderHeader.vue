@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between gap-4 flex-wrap">
     <div class="flex items-center gap-3">
-      <AppButton variant="ghost" @click="router.back()">← Voltar</AppButton>
+      <AppButton variant="ghost" @click="router.back()">Voltar</AppButton>
       <div>
         <h1 class="text-lg font-semibold text-text">{{ currentOrder!.patientName }}</h1>
         <p class="text-sm text-secondary">CPF: {{ formattedCpf }}</p>

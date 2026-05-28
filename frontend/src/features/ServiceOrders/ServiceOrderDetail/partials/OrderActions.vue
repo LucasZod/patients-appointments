@@ -1,19 +1,22 @@
 <template>
   <AppCard v-if="currentOrder!.status === 'InProgress'">
-    <h2 class="text-sm font-semibold text-text mb-3">Ações</h2>
-    <AppButton variant="primary" class="w-full" @click="completeCollection(currentOrder!.id)">
-      Finalizar Coleta
-    </AppButton>
+    <AppButton variant="primary" class="w-full" @click="goRecord">Registrar Coleta</AppButton>
+  </AppCard>
+  <AppCard v-else-if="currentOrder!.status === 'Collected'">
+    <AppButton variant="outlined" class="w-full" @click="goReview">Conferir Amostras</AppButton>
   </AppCard>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useServiceOrderStore } from '@/stores/service-order.store'
 import AppCard from '@/shared/ui/AppCard.vue'
 import AppButton from '@/shared/ui/AppButton.vue'
 
-const store = useServiceOrderStore()
-const { currentOrder } = storeToRefs(store)
-const { completeCollection } = store
+const router = useRouter()
+const { currentOrder } = storeToRefs(useServiceOrderStore())
+
+const goRecord = () => router.push(`/orders/${currentOrder.value!.id}/samples/record`)
+const goReview = () => router.push(`/orders/${currentOrder.value!.id}/samples/review`)
 </script>

@@ -29,12 +29,12 @@ const router = createRouter({
         {
           path: 'orders/:id/samples/record',
           name: 'samples-record',
-          component: PlaceholderView,
+          component: () => import('@/features/Samples/RecordSamples/index.vue'),
         },
         {
           path: 'orders/:id/samples/review',
           name: 'samples-review',
-          component: PlaceholderView,
+          component: () => import('@/features/Samples/SampleReview/index.vue'),
         },
         { path: 'reports', name: 'reports', component: PlaceholderView },
       ],

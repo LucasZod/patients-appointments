@@ -4,9 +4,9 @@
       <li
         v-for="(step, i) in steps"
         :key="step.status"
-        class="flex flex-1 items-center"
+        class="flex flex-1 items-center justify-center"
       >
-        <div class="flex flex-col items-center gap-1 flex-1">
+        <div class="flex flex-col items-center gap-1">
           <div
             :class="[
               'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors',
@@ -33,7 +33,7 @@
         <div
           v-if="i < steps.length - 1"
           :class="[
-            'h-0.5 flex-1 -mt-5 transition-colors',
+            'h-0.5 -mt-5 transition-colors',
             stepState(step.status) === 'done' ? 'bg-primary' : 'bg-border',
           ]"
         />
@@ -60,7 +60,10 @@ const steps = computed(() => {
     { status: 'Waiting' as ServiceOrderStatus, label: 'Aguardando' },
     { status: 'InProgress' as ServiceOrderStatus, label: 'Em Coleta' },
     { status: 'Collected' as ServiceOrderStatus, label: 'Coletado' },
-    { status: (isRejected ? 'Rejected' : 'Completed') as ServiceOrderStatus, label: isRejected ? 'Rejeitado' : 'Concluído' },
+    {
+      status: (isRejected ? 'Rejected' : 'Completed') as ServiceOrderStatus,
+      label: isRejected ? 'Rejeitado' : 'Concluído',
+    },
   ]
 })
 

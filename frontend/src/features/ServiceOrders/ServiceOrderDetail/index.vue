@@ -9,7 +9,7 @@
 
   <div v-else-if="currentOrder" class="flex flex-col gap-6">
     <OrderHeader />
-    <StatusStepper />
+    <!-- <StatusStepper /> -->
     <div class="grid gap-6 md:grid-cols-3">
       <div class="md:col-span-2">
         <OrderItemsList />
