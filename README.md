@@ -15,7 +15,7 @@ docker-compose up -d
 # 2. backend
 cd backend
 dotnet restore
-dotnet ef database update --project src/Shared/Infrastructure -- --environment Development
+dotnet ef database update
 dotnet run
 # API em http://localhost:5134
 
