@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-text: var(--text);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --color-tube-purple: var(--tube-purple);
+  --color-tube-yellow: var(--tube-yellow);
+  --color-tube-green: var(--tube-green);
+  --color-tube-urine: var(--tube-urine);
+
+  --font-sans: var(--font-inter);
+
+  --radius-card: 8px;
+  --radius-button: 6px;
+  --radius-badge: 20px;
+}
+
+:root {
+  --primary: #122129;
+  --secondary: #7da1a6;
+  --accent: #a6d6d9;
+  --text: #292929;
+  --bg: #f4f8f9;
+  --surface: #ffffff;
+  --border: rgba(18, 33, 41, 0.12);
+
+  --success: #10b981;
+  --warning: #d97706;
+  --error: #ef4444;
+
+  --tube-purple: #7c3aed;
+  --tube-yellow: #d97706;
+  --tube-green: #059669;
+  --tube-urine: #92400e;
+
+  --font-inter: 'Inter', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
