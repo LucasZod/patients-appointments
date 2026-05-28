@@ -1,0 +1,9 @@
+
+# .NET build output
+bin/
+obj/
+
+# Frontend
+frontend/.env
+frontend/.env.local
+node_modules/
