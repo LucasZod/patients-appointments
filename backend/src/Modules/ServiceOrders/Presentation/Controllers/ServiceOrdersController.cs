@@ -44,8 +44,8 @@ public class ServiceOrdersController(
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ServiceOrderResponseDto>> GetById(Guid id)
     {
-        var serviceOrder = await getServiceOrder.ExecuteAsync(id);
-        return Ok(ServiceOrderResponseDto.FromDomain(serviceOrder));
+        var result = await getServiceOrder.ExecuteAsync(id);
+        return Ok(ServiceOrderResponseDto.FromDomain(result.Order, result.PatientName, result.PatientCpf));
     }
 
     [HttpPost("call-next")]

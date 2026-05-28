@@ -15,6 +15,19 @@ public class EfServiceOrderRepository(AppDbContext context) : IServiceOrderRepos
             .FirstOrDefaultAsync(so => so.Id == id);
     }
 
+    public async Task<ServiceOrderWithPatient?> FindByIdWithPatientAsync(Guid id)
+    {
+        var order = await context.ServiceOrders
+            .Include(so => so.Items)
+            .FirstOrDefaultAsync(so => so.Id == id);
+
+        if (order is null) return null;
+
+        var patient = await context.Set<Patient>().FirstOrDefaultAsync(p => p.Id == order.PatientId);
+
+        return new ServiceOrderWithPatient(order, patient?.Name ?? string.Empty, patient?.Cpf.Value);
+    }
+
     public Task<ServiceOrder?> FindNextInQueueAsync()
     {
         return context.ServiceOrders

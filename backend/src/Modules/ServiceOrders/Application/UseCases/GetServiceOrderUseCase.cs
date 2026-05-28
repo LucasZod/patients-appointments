@@ -6,12 +6,12 @@ namespace Backend.Modules.ServiceOrders.Application.UseCases;
 
 public class GetServiceOrderUseCase(IServiceOrderRepository repository)
 {
-    public async Task<ServiceOrder> ExecuteAsync(Guid id)
+    public async Task<ServiceOrderWithPatient> ExecuteAsync(Guid id)
     {
-        var serviceOrder = await repository.FindByIdAsync(id);
-        if (serviceOrder is null)
+        var result = await repository.FindByIdWithPatientAsync(id);
+        if (result is null)
             throw new NotFoundException($"Service order '{id}' not found");
 
-        return serviceOrder;
+        return result;
     }
 }

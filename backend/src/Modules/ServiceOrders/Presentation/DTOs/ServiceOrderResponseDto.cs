@@ -6,6 +6,7 @@ public record ServiceOrderResponseDto(
     Guid Id,
     Guid PatientId,
     string? PatientName,
+    string? PatientCpf,
     ServiceOrderStatus Status,
     Priority Priority,
     DateTime? CalledAt,
@@ -13,10 +14,11 @@ public record ServiceOrderResponseDto(
     DateTime CreatedAt,
     IReadOnlyCollection<OrderItemResponseDto> Items)
 {
-    public static ServiceOrderResponseDto FromDomain(ServiceOrder so, string? patientName = null) => new(
+    public static ServiceOrderResponseDto FromDomain(ServiceOrder so, string? patientName = null, string? patientCpf = null) => new(
         so.Id,
         so.PatientId,
         patientName,
+        patientCpf,
         so.Status,
         so.Priority,
         so.CalledAt,
