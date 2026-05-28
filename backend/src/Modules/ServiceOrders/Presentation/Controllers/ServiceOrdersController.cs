@@ -58,7 +58,7 @@ public class ServiceOrdersController(
     [HttpPatch("{id:guid}/complete-collection")]
     public async Task<ActionResult<ServiceOrderResponseDto>> CompleteCollection(Guid id)
     {
-        var serviceOrder = await completeCollection.ExecuteAsync(id);
-        return Ok(ServiceOrderResponseDto.FromDomain(serviceOrder));
+        var result = await completeCollection.ExecuteAsync(id);
+        return Ok(ServiceOrderResponseDto.FromDomain(result.Order, result.PatientName, result.PatientCpf));
     }
 }

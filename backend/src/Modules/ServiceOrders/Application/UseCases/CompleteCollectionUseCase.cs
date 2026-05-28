@@ -6,13 +6,13 @@ namespace Backend.Modules.ServiceOrders.Application.UseCases;
 
 public class CompleteCollectionUseCase(IServiceOrderRepository repository)
 {
-    public async Task<ServiceOrder> ExecuteAsync(Guid serviceOrderId)
+    public async Task<ServiceOrderWithPatient> ExecuteAsync(Guid serviceOrderId)
     {
-        var serviceOrder = await repository.FindByIdAsync(serviceOrderId)
+        var result = await repository.FindByIdWithPatientAsync(serviceOrderId)
             ?? throw new NotFoundException($"Service order '{serviceOrderId}' not found");
 
-        serviceOrder.CompleteCollection();
-        await repository.SaveAsync(serviceOrder);
-        return serviceOrder;
+        result.Order.CompleteCollection();
+        await repository.SaveAsync(result.Order);
+        return result;
     }
 }

@@ -21,7 +21,11 @@ const router = createRouter({
           name: 'queue',
           component: () => import('@/features/Queue/QueueView/index.vue'),
         },
-        { path: 'orders/:id', name: 'order-detail', component: PlaceholderView },
+        {
+          path: 'orders/:id',
+          name: 'order-detail',
+          component: () => import('@/features/ServiceOrders/ServiceOrderDetail/index.vue'),
+        },
         {
           path: 'orders/:id/samples/record',
           name: 'samples-record',

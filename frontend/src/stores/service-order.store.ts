@@ -19,6 +19,10 @@ export const useServiceOrderStore = defineStore('service-order', () => {
   const isCreating = ref(false)
   const createError = ref<string | null>(null)
 
+  const currentOrder = ref<ServiceOrder | null>(null)
+  const isLoadingOrder = ref(false)
+  const loadError = ref<string | null>(null)
+
   const canSubmit = computed(
     () => selectedPatient.value !== null && selectedExamCodes.value.length > 0 && !isCreating.value,
   )
@@ -63,6 +67,26 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     createError.value = null
   }
 
+  const loadOrder = async (id: string): Promise<void> => {
+    isLoadingOrder.value = true
+    loadError.value = null
+    try {
+      currentOrder.value = await serviceOrderApi.findById(id)
+    } catch (err) {
+      loadError.value = err instanceof HttpError ? err.message : 'Erro ao carregar a ordem'
+    } finally {
+      isLoadingOrder.value = false
+    }
+  }
+
+  const completeCollection = async (id: string): Promise<void> => {
+    try {
+      currentOrder.value = await serviceOrderApi.completeCollection(id)
+    } catch (err) {
+      loadError.value = err instanceof HttpError ? err.message : 'Erro ao finalizar coleta'
+    }
+  }
+
   const createOrder = async (): Promise<ServiceOrder | null> => {
     if (!selectedPatient.value || selectedExamCodes.value.length === 0) return null
 
@@ -98,6 +122,9 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     selectedExamCodes,
     isCreating,
     createError,
+    currentOrder,
+    isLoadingOrder,
+    loadError,
     canSubmit,
     tubeSummary,
     selectPatient,
@@ -105,6 +132,8 @@ export const useServiceOrderStore = defineStore('service-order', () => {
     toggleExam,
     reset,
     clearError,
+    loadOrder,
+    completeCollection,
     createOrder,
   }
 })

@@ -31,6 +31,7 @@ export interface ServiceOrder {
   id: string
   patientId: string
   patientName?: string | null
+  patientCpf?: string | null
   status: ServiceOrderStatus
   priority: Priority
   calledAt?: string | null
