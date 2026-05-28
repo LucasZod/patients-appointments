@@ -20,9 +20,20 @@ const request = async <T>(path: string, options?: RequestInit): Promise<T> => {
   })
 
   if (!response.ok) {
-    const fallback = { error: `HTTP ${response.status}` }
-    const payload = await response.json().catch(() => fallback)
-    throw new HttpError(response.status, payload.error ?? fallback.error)
+    const fallback = `HTTP ${response.status}`
+    const payload = await response.json().catch(() => null)
+
+    let message = fallback
+    if (payload?.error) {
+      message = payload.error
+    } else if (payload?.errors) {
+      const first = Object.values(payload.errors as Record<string, string[]>).flat()[0]
+      message = first ?? payload.title ?? fallback
+    } else if (payload?.title) {
+      message = payload.title
+    }
+
+    throw new HttpError(response.status, message)
   }
 
   if (response.status === 204) return undefined as T
