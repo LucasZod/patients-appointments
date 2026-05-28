@@ -80,6 +80,26 @@ public class PatientsControllerTests : IClassFixture<ApiFactory>, IAsyncLifetime
     }
 
     [Fact]
+    public async Task Register_WithInvalidCpfCheckDigit_Returns422()
+    {
+        var payload = new { name = "João", cpf = "12345678901", birthDate = "1990-05-15" };
+
+        var response = await _client.PostAsJsonAsync("/api/patients", payload);
+
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Register_WithAllSameDigitsCpf_Returns422()
+    {
+        var payload = new { name = "João", cpf = "11111111111", birthDate = "1990-05-15" };
+
+        var response = await _client.PostAsJsonAsync("/api/patients", payload);
+
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+
+    [Fact]
     public async Task Register_WithFutureBirthDate_Returns422()
     {
         var payload = new
